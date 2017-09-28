@@ -11,27 +11,34 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 
 //pages
-import Frontpage from './pages/frontpage';
-import SinglePost from './pages/single-post';
-import Testpage from "./pages/test-page";
+//import Frontpage from './pages/frontpage';
+//import SinglePost from './pages/single-post';
+import NavigationComponent from './components/navigation/component';
+import FooterComponent from './components/footer/view';
+import ExampleComponent from './components/example/component';
 
 //reducers
 import postReducer from './components/post/reducers.js';
-import testReducer from './components/test-component/reducers.js';
+import exampleReducer from './components/example/reducers.js';
+import navigationReducer from './components/navigation/reducers.js';
+
+//components
 
 
-
-
-let store = createStore(combineReducers({postReducer, testReducer }), applyMiddleware(promiseMiddleware(), thunk, logger));
+let store = createStore(combineReducers({postReducer, exampleReducer, navigationReducer }), applyMiddleware(promiseMiddleware(), thunk, logger));
 
 ReactDOM.render(
     <Provider store={store}>
         <Router>
             <div>
-                <Route exact path="/" component={Frontpage} />
-                <Route path="/r/:subreddit/comments/:id/:title" component={SinglePost} />
+                <NavigationComponent />
 
-                <Route path="/test" component={Testpage}/>
+                <Route path="/example" component={ExampleComponent} />
+
+                {/*<Route exact path="/" component={Frontpage} />*/}
+                {/*<Route path="/r/:subreddit/comments/:id/:title" component={SinglePost} />*/}
+
+                <FooterComponent />
             </div>
         </Router>
     </Provider>,
