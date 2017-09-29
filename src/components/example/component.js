@@ -12,6 +12,8 @@ import {userIdle, userClick} from "./actions";
 class ExampleComponent extends Component {
     componentWillMount() {
         this.props.dispatch(userIdle());
+
+        console.log(this.props.id);
     }
 
     render() {
@@ -23,7 +25,7 @@ class ExampleComponent extends Component {
         }
 
         return (
-           <ExampleView clickFunction={onClick} number={this.props.number} />
+           <ExampleView clickFunction={onClick} number={this.props.number}/>
         );
     }
 }

@@ -5,27 +5,31 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
 import logger from 'redux-logger';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 //store
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 
 //pages
-//import Frontpage from './pages/frontpage';
-//import SinglePost from './pages/single-post';
+import Frontpage from './pages/frontpage';
+import SinglePost from './pages/single-post';
+import Examplepage from "./pages/example-page";
+import Userspage from "./pages/userspage";
+
 import NavigationComponent from './components/navigation/component';
 import FooterComponent from './components/footer/view';
-import ExampleComponent from './components/example/component';
 
 //reducers
-import postReducer from './components/post/reducers.js';
-import exampleReducer from './components/example/reducers.js';
-import navigationReducer from './components/navigation/reducers.js';
+import postReducer from './components/post/reducers';
+import exampleReducer from './components/example/reducers';
+import navigationReducer from './components/navigation/reducers';
+import userReducer from './components/users/reducers';
+
 
 //components
 
 
-let store = createStore(combineReducers({postReducer, exampleReducer, navigationReducer }), applyMiddleware(promiseMiddleware(), thunk, logger));
+let store = createStore(combineReducers({postReducer, exampleReducer, navigationReducer, userReducer }), applyMiddleware(promiseMiddleware(), thunk, logger));
 
 ReactDOM.render(
     <Provider store={store}>
@@ -33,10 +37,18 @@ ReactDOM.render(
             <div>
                 <NavigationComponent />
 
-                <Route path="/example" component={ExampleComponent} />
+                <Switch>
+                    <Route exact path="/example" component={Examplepage} />
+                    <Route path="/example/:id" component={Examplepage} />
 
-                {/*<Route exact path="/" component={Frontpage} />*/}
-                {/*<Route path="/r/:subreddit/comments/:id/:title" component={SinglePost} />*/}
+                    <Route exact path="/r" component={Frontpage} />
+
+                    <Route exact path="/users" component={Userspage} />
+                    <Route exact path="/users/:userid" component={Userspage} />
+
+                    <Route path="/r/:subreddit/comments/:id/:title" component={SinglePost} />
+                </Switch>
+
 
                 <FooterComponent />
             </div>
